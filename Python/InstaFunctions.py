@@ -161,3 +161,28 @@ def perform_engagement_actions(username, password, usernames_file, message_file,
     with open(index_file, 'w') as file:
         file.write(str(next_index))
 
+# Read the last used post number from a file
+def read_last_post_number():
+    try:
+        with open("last_post_number.txt", "r") as file:
+            last_post_number = int(file.read())
+    except FileNotFoundError:
+        last_post_number = 0  # Start from 0 if file doesn't exist
+    return last_post_number
+
+# Upload the post
+def upload_post(username, password, post_number):
+    path = f"C:\\Users\\Refentse\\Desktop\\Work\\Xpose\\Supra\\Supra\\supra{post_number}.mp4"
+    # Caption for the post
+    caption = "Day "+ str(post_number) +" posting my dream car \nAll other super cars are trash \nLink in Bio 👀 \n. \nTo get access to a millionaire discord community and course videos \nFollow @kingdailyhustler \nFollow @kingdailywin \nFollow @kingdailybuilder \nFollow @kingdailytopg \n. \nFollow to be part of the Journey🔥🔥🔥 \nEvery Friday we give free access to loyal members🎁 \n. \n\n#explore #car #viral #viralvideos #sportcars #supra #supragt #reels #world #explore #car #viral #viralvideos #sportcars #supra #supragt #reels #world #TheRealWorld #hustlersuniversity #andrewtate #motivation #motivationalquotes #motivatonnation #mindset #money #entrepreneurquotes #motivationspeech #tate #entrepreneur #selfimprovement #andrewtate #entrepreneurquotes #discipline"
+    # Load settings check
+    load_login_save(username, password)
+    cl.clip_upload(
+        path=path,
+        caption=caption
+    )
+
+# Increment the post number and update the file
+def update_post_number(post_number):
+    with open("last_post_number.txt", "w") as file:
+        file.write(str(post_number + 1))
