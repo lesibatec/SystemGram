@@ -65,11 +65,17 @@ def upload_post(video_path, caption, username, password):
             print(f"Failed to upload post for {username}: Unable to login")
             return False, f"Failed to upload post for {username}: Unable to login"
 
-# Directory containing videos
-video_directory = "Posts"
+# Get the directory of the current file
+current_file_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Directory containing videos (relative path)
+video_directory = os.path.join(current_file_directory, "Posts")
 
 # Read the sheet containing video names, captions, and posted status
-posts_file = os.path.join(video_directory, "posts.txt")
+posts_file = os.path.join(video_directory, "Posts.txt")
+
+# Full path to the posts file
+posts_file = os.path.join(current_file_directory, posts_file)
 
 if os.path.isfile(posts_file):
     # Read the posts from the text file into a DataFrame

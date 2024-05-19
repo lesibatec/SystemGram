@@ -1,8 +1,15 @@
 # Your main script
 from InstaFunctions import perform_engagement_actions
+import os
+
+# Get the directory of the current file
+current_file_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Directory containing videos (relative path)
+credentials = os.path.join(current_file_directory, "credentials.txt")
 
 # Read usernames and passwords from file
-with open("credentials.txt", "r") as file:
+with open(credentials, "r") as file:
     lines = file.readlines()
 
 # Set up other parameters for engagement

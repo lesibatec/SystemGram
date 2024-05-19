@@ -7,7 +7,11 @@ cl = Client()
 
 # Load session settings from JSON file
 def load_session_settings(username):
+    # Read usernames from the file# Get the directory of the current file
+    current_file_directory = os.path.dirname(os.path.abspath(__file__))
+    # Directory containing videos (relative path)
     settings_file = f"{username}_settings.json"
+    settings_file = os.path.join(current_file_directory, settings_file)
     try:
         with open(settings_file, 'r') as file:
             cl.load_settings(settings_file)  # Load session settings
@@ -93,7 +97,13 @@ def upload_post(video_path, caption, username, password):
             return False, f"Failed to upload post for {username}: Unable to login"
 
 def perform_engagement_actions(username, password, usernames_file, message_file, index_file):
-    # Read usernames from the file
+    # Read usernames from the file# Get the directory of the current file
+    current_file_directory = os.path.dirname(os.path.abspath(__file__))
+    # Directory containing videos (relative path)
+    usernames_file = os.path.join(current_file_directory, usernames_file)
+    message_file = os.path.join(current_file_directory, message_file)
+    index_file = os.path.join(current_file_directory, index_file)
+    
     with open(usernames_file, 'r') as file:
         usernames = [line.strip() for line in file]
 
@@ -163,8 +173,12 @@ def perform_engagement_actions(username, password, usernames_file, message_file,
 
 # Read the last used post number from a file
 def read_last_post_number():
+    # Read usernames from the file# Get the directory of the current file
+    current_file_directory = os.path.dirname(os.path.abspath(__file__))
+    # Directory containing videos (relative path)
+    last_post_number = os.path.join(current_file_directory, "last_post_number.txt")
     try:
-        with open("last_post_number.txt", "r") as file:
+        with open(last_post_number, "r") as file:
             last_post_number = int(file.read())
     except FileNotFoundError:
         last_post_number = 0  # Start from 0 if file doesn't exist
@@ -184,5 +198,9 @@ def upload_post(username, password, post_number):
 
 # Increment the post number and update the file
 def update_post_number(post_number):
-    with open("last_post_number.txt", "w") as file:
+    # Read usernames from the file# Get the directory of the current file
+    current_file_directory = os.path.dirname(os.path.abspath(__file__))
+    # Directory containing videos (relative path)
+    last_post_number = os.path.join(current_file_directory, "last_post_number.txt")
+    with open(last_post_number, "w") as file:
         file.write(str(post_number + 1))
