@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from instagrapi import Client
+import time
 
 # Initialize instagrapi client
 cl = Client()
@@ -30,12 +31,52 @@ def test_session(username):
             print(f"Error testing session for {username}: {str(e)}")
     return False
 
+def delete_file(file_path):
+    """
+    Delete a file if it exists.
+
+    Args:
+    file_path (str): The path to the file to be deleted.
+
+    Returns:
+    bool: True if the file was deleted successfully, False otherwise.
+    """
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"{file_path} has been deleted.")
+        return True
+    else:
+        print(f"The file {file_path} does not exist.")
+        return False
+
 # Function to login and save session settings
 def login_and_save(username, password):
     try:
-        cl.login(username, password)
         settings_file = f"{username}_settings.json"
+        settings_file_path = os.path.abspath(settings_file)
+        
+        # Delete the existing settings file
+        delete_file(settings_file_path)
+        time.sleep(5)  # 5 seconds delay
+        
+        print(f"Attempting to log in for {username}...")
+        cl = Client()
+        cl.logout()
+        cl.login(username, password)
+        print(f"Login successful for {username}.")
+        
+        # Save the settings
+        print(f"Dumping settings to {settings_file_path}")
         cl.dump_settings(settings_file)
+        print(f"Settings dumped to {settings_file_path}")
+        
+        # Verify if the settings file is created and updated
+        if os.path.exists(settings_file):
+            print(f"Settings for {username} saved successfully at {settings_file_path}.")
+        else:
+            print(f"Failed to save settings for {username}.")
+            return False
+        
         return True
     except Exception as e:
         print(f"Error logging in for {username}: {str(e)}")
@@ -185,7 +226,7 @@ def read_last_post_number():
     return last_post_number
 
 # Upload the post
-def upload_post(username, password, post_number):
+def upload_postX(username, password, post_number):
     path = f"C:\\Users\\Refentse\\Desktop\\Work\\Xpose\\Supra\\Supra\\supra{post_number}.mp4"
     # Caption for the post
     caption = "Day "+ str(post_number) +" posting my dream car \nAll other super cars are trash \nLink in Bio 👀 \n. \nTo get access to a millionaire discord community and course videos \nFollow @kingdailyhustler \nFollow @kingdailywin \nFollow @kingdailybuilder \nFollow @kingdailytopg \n. \nFollow to be part of the Journey🔥🔥🔥 \nEvery Friday we give free access to loyal members🎁 \n. \n\n#explore #car #viral #viralvideos #sportcars #supra #supragt #reels #world #explore #car #viral #viralvideos #sportcars #supra #supragt #reels #world #TheRealWorld #hustlersuniversity #andrewtate #motivation #motivationalquotes #motivatonnation #mindset #money #entrepreneurquotes #motivationspeech #tate #entrepreneur #selfimprovement #andrewtate #entrepreneurquotes #discipline"
